@@ -4,7 +4,7 @@ options:
 	#czas bana (w minutach)
 	bantime: 60
 on damage of player:
-	if attacker is a player
+	if attacker is a player:
 		if {walka.%victim%} is not set:
 			send "&cJestes podczas walki! Nie mozesz sie wylogowac." to victim
 		if {walka.%attacker%} is not set:
