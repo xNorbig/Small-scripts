@@ -1,0 +1,40 @@
+options:
+	#jakich blokow ma nie naprawiac
+	#nazwe kazdego bloku oddziel slowem "and"
+	#np. tnt and stone and dirt
+	blocks: tnt
+	
+	#po ilu sekundach od wybuchu ma naprawiac bloki
+	time: 1
+	
+	#co ile sekund ma sie odnawiac kolejny blok
+	difference: 0.05
+on explode:
+	cancel event
+	loop boom boomed blocks:
+		loop-block is not {@blocks}:
+			add location of loop-block to {_list::*}
+			add type of loop-block to {_listT::*}
+		set loop-block to air
+	wait {@time} seconds
+	loop {_list::*}:
+		chance of 25%:
+			set block at loop-value to {_listT::%loop-index%}
+			remove loop-value from {_list::*}
+			remove loop-index from {_listT::*}
+			wait {@difference} second
+	loop 3 times:
+		if {_list::*} is set:
+			loop {_list::*}:
+				chance of 25%:
+					set block at loop-value to {_listT::%loop-index%}
+					remove loop-value from {_list::*}
+					remove loop-index from {_listT::*}
+					wait {@difference} second
+
+	if {_list::*} is set:
+		loop {_list::*}:
+			set block at loop-value to {_listT::%loop-index%}
+			remove loop-value from {_list::*}
+			remove loop-index from {_listT::*}
+			wait {@difference} second
