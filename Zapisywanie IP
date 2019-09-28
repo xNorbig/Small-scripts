@@ -1,5 +1,0 @@
-on join:
-	set {_value} to value "FirstJoin.%player%" get of "plugins/Skript/scripts/IP/IPs.yml"
-	if {_value} is not set:
-		set "FirstJoin.%player%" to "%player's ip%" in yaml file "plugins/Skript/scripts/IP/IPs.yml"
-	set "LastLogin.%player%" to "%player's ip%" in yaml file "plugins/Skript/scripts/IP/IPs.yml"
