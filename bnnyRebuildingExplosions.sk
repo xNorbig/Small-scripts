@@ -1,14 +1,15 @@
 options:
-	#jakich blokow ma nie naprawiac
+	#jakich bloków ma nie naprawiać
 	#nazwe kazdego bloku oddziel slowem "and"
 	#np. tnt and stone and dirt
 	blocks: tnt
 	
-	#po ilu sekundach od wybuchu ma naprawiac bloki
+	#po ilu sekundach od wybuchu ma naprawiać bloki
 	time: 1
 	
-	#co ile sekund ma sie odnawiac kolejny blok
+	#co ile sekund ma sie odnawiać kolejny blok
 	difference: 0.05
+
 on explode:
 	cancel event
 	loop boom boomed blocks:
@@ -31,7 +32,6 @@ on explode:
 					remove loop-value from {_list::*}
 					remove loop-index from {_listT::*}
 					wait {@difference} second
-
 	if {_list::*} is set:
 		loop {_list::*}:
 			set block at loop-value to {_listT::%loop-index%}
