@@ -1,0 +1,53 @@
+options:
+	#brak uprawnień
+	noPermission: &6[Chat] &cNie masz uprawnien! &7(chat.command)
+	chatIsOff: &6[Chat] &cNie mozesz pisac na wylaczonym czacie!
+
+	#pomoc
+	chatHelpOn: &6» &7/chat &fon &8- &ewlaczenie chatu
+	chatHelpOff: &6» &7/chat &foff &8- &ewylaczenie chatu
+	chatHelpClear: &6» &7/chat &fclear &8- &ewyczyszczenie chatu
+
+	#powiadomienia
+	chatOn: &6[Chat] &7Chat zostal &awlaczony&7!
+	chatAlreadyOn: &6[Chat] &cChat jest juz wlaczony!
+
+	chatOff: &6[Chat] &7Chat zostal &cwylaczony&7!
+	chatAlreadyOff: &6[Chat] &cChat jest juz wylaczony!
+
+	chatClear: &6[Chat] &7Chat zostal &ewyczyszczony&7!
+
+command /chat [<text="">]:
+	aliases: c
+	trigger:
+		if player doesn't have permission "chat.command":
+			send "{@noPermission}"
+			stop
+		if arg 1 is "on":
+			if {bnnyChat::status} is false:
+				clear {bnnyChat::status}
+				broadcast "{@chatOn}"
+			else:
+				send "{@chatAlreadyOn}"
+			stop
+		if arg 1 is "off":
+			if {bnnyChat::status} is not set:
+				set {bnnyChat::status} to false
+				broadcast "{@chatOff}"
+			else:
+				send "{@chatAlreadyOff}"
+			stop
+		if arg 1 is "clear":
+			loop 100 times:
+				send "" to all players
+			broadcast "{@chatClear}"
+			stop
+		send "{@chatHelpOn}"
+		send "{@chatHelpOff}"
+		send "{@chatHelpClear}"
+
+on chat:
+	if {bnnyChat::status} is set:
+		if player doesn't have permission "chat.write":
+			cancel event
+			send "{@chatIsOff}"
