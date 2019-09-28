@@ -1,39 +1,43 @@
 options:
 	#czas, po jakim można się wylogować (w sekundach)
-	time: 10
+	logoutTime: 10
 	
 	#czas bana (w minutach)
-	bantime: 60
+	banTime: 60
 	
 	#wiadomosc podczas walki
 	fight: &cJestes podczas walki! Nie mozesz sie wylogowac.
 	
 	#koniec walki
-	fightend: &aNie jestes juz w walce! Mozesz sie spokojnie wylogowac.
+	fightEnded: &aNie jestes juz w walce! Mozesz sie spokojnie wylogowac.
 
+	#wiadomość kicknięcia
+	kickReason: &cWylogowales sie podczas walki! &cAby moc wejsc odczekaj jeszcze {time} minut.
 on damage of player:
 	attacker is a player
 	if {bnnyAntiLogout::fight::%victim's uuid%} is not set:
-		send {@fight} to victim
+		send "{@fight}" to victim
 	if {bnnyAntiLogout::fight::%attacker's uuid%} is not set:
-		send {@fight} to attacker
+		send "{@fight}" to attacker
 	set {bnnyAntiLogout::fight::%victim's uuid%} to true
 	set {bnnyAntiLogout::fight::%attacker's uuid%} to true
-	wait {@time} seconds
-	send {@fightend} to victim and attacker
+	wait {@logoutTime} seconds
+	send "{@fightEnded}" to victim and attacker
 	delete {bnnyAntiLogout::fight::%victim's uuid%}
 	delete {bnnyAntiLogout::fight::%attacker's uuid%}
 
 on quit:
 	{bnnyAntiLogout::fight::%player's uuid%} is set
 	kill player
-	kick player due to "&cWylogowales sie podczas walki! &cDostales bana na {@bantime} min."
+	kick player due to "&cWylogowales sie podczas walki! &cDostales bana na {@banTime} min."
 	set {bnnyAntiLogout::ban::%player's uuid%} to now
 	delete {bnnyAntiLogout::fight::%player's uuid%}
 
 on join:
 	if {bnnyAntiLogout::%player's uuid%} is set:
-		if difference between {bnnyAntiLogout::ban::%player's uuid%} and now is less than {@bantime} minutes:
-			kick player due to "&cWylogowales sie podczas walki! &cAby moc wejsc odczekaj jeszcze %difference between {bnnyAntiLogout::ban::%player's uuid%} and now% minut."
+		if difference between {bnnyAntiLogout::ban::%player's uuid%} and now is less than {@banTime} minutes:
+			set {_reason} to "{@kickReason}"
+			replace all "{time}" with "%difference between {bnnyAntiLogout::ban::%player's uuid%} and now%" in {_reason}
+			kick player due to "%{_reason}%"
 			stop
 		clear {bnnyAntiLogout::ban::%player's uuid%}
