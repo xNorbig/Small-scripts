@@ -1,6 +1,7 @@
 options:
 	#co ile sekund stone ma się regenerować
 	time: 1.6
+	
 	#crafting stoniarki
 	#sloty:
 	# crafting_1 | crafting_2 | crafting_3
@@ -15,15 +16,18 @@ options:
 	crafting_7: stone
 	crafting_8: stone
 	crafting_9: stone
+
 on script load:
-	register new shaped recipe for end stone using {@crafting_1}, {@crafting_2}, {@crafting_3}, {@crafting_4}, {@crafting_5}, {@crafting_6}, {@crafting_7}, {@crafting_8}, {@crafting_9} 
+	register new shaped recipe for end stone using {@crafting_1}, {@crafting_2}, {@crafting_3}, {@crafting_4}, {@crafting_5}, {@crafting_6}, {@crafting_7}, {@crafting_8}, {@crafting_9}
+
 on place of end stone:
 	if block at event-location is end stone:
 		if block above event-location is air:
 			set block above event-location to stone
+
 on break of stone:
-	set {_loc.%event-location%} to event-location
-	wait {@time} second
-	if block under {_loc.%event-location%} is end stone:
-		if block at {_loc.%event-location%} is air:
-			set block at {_loc.%event-location%} to stone
+	set {_location::%event-location%} to event-location
+	wait {@time} seconds
+	if block under {_location::%event-location%} is end stone:
+		if block at {_location::%event-location%} is air:
+			set block at {_location::%event-location%} to stone
