@@ -1,1 +1,1 @@
-**Prezentacja skryptu:** http://skript.pl/index.php/topic/4269-
+**Prezentacja skryptu:** https://skript.pl/temat/4269-mini-skrypty/
