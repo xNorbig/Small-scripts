@@ -10,6 +10,7 @@ options:
 	
 	#koniec walki
 	fightend: &aNie jestes juz w walce! Mozesz sie spokojnie wylogowac.
+
 on damage of player:
 	attacker is a player
 	if {bnnyAntiLogout::fight::%victim's uuid%} is not set:
@@ -22,12 +23,14 @@ on damage of player:
 	send {@fightend} to victim and attacker
 	delete {bnnyAntiLogout::fight::%victim's uuid%}
 	delete {bnnyAntiLogout::fight::%attacker's uuid%}
+
 on quit:
 	{bnnyAntiLogout::fight::%player's uuid%} is set
 	kill player
 	kick player due to "&cWylogowales sie podczas walki! &cDostales bana na {@bantime} min."
 	set {bnnyAntiLogout::ban::%player's uuid%} to now
 	delete {bnnyAntiLogout::fight::%player's uuid%}
+
 on join:
 	if {bnnyAntiLogout::%player's uuid%} is set:
 		if difference between {bnnyAntiLogout::ban::%player's uuid%} and now is less than {@bantime} minutes:
