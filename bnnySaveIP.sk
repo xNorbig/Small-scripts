@@ -6,5 +6,5 @@ on first join:
 	set "%player's uuid%.first" to "%player's ip%" in yaml file {@path}
 
 on join:
-	set "%player's uuuid%.nick" to "%player%" in yaml file {@path}
-	set "%player's uuuid%.last" to "%player's ip%" in yaml file {@path}
+	set "%player's uuid%.nick" to "%player%" in yaml file {@path}
+	set "%player's uuid%.last" to "%player's ip%" in yaml file {@path}
